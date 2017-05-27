@@ -60,19 +60,22 @@ public class SupCam : MonoBehaviour {
 
         for(int i = 0; i< Players.Count; i++)
         {
-            Vector3 PosicaoJogador = Players[i].transform.position;
-
-            if (!FocusLevel.FocusBounds.Contains(PosicaoJogador))
+            if (Players[i])
             {
-                float JogadorX = Mathf.Clamp(PosicaoJogador.x, FocusLevel.FocusBounds.min.x, FocusLevel.FocusBounds.max.x);
-                float JogadorY = Mathf.Clamp(PosicaoJogador.y, FocusLevel.FocusBounds.min.y, FocusLevel.FocusBounds.max.y);
-                float JogadorZ = Mathf.Clamp(PosicaoJogador.z, FocusLevel.FocusBounds.min.z, FocusLevel.FocusBounds.max.z);
+                Vector3 PosicaoJogador = Players[i].transform.position;
 
-                PosicaoJogador = new Vector3(JogadorX, JogadorY, JogadorZ);
+                if (!FocusLevel.FocusBounds.Contains(PosicaoJogador))
+                {
+                    float JogadorX = Mathf.Clamp(PosicaoJogador.x, FocusLevel.FocusBounds.min.x, FocusLevel.FocusBounds.max.x);
+                    float JogadorY = Mathf.Clamp(PosicaoJogador.y, FocusLevel.FocusBounds.min.y, FocusLevel.FocusBounds.max.y);
+                    float JogadorZ = Mathf.Clamp(PosicaoJogador.z, FocusLevel.FocusBounds.min.z, FocusLevel.FocusBounds.max.z);
+
+                    PosicaoJogador = new Vector3(JogadorX, JogadorY, JogadorZ);
+                }
+
+                SomaPosicoes += PosicaoJogador;
+                LimiteJogador.Encapsulate(PosicaoJogador);
             }
-
-            SomaPosicoes += PosicaoJogador;
-            LimiteJogador.Encapsulate(PosicaoJogador);
         }
 
         VaricaoCentroCamera = (SomaPosicoes / Players.Count);
